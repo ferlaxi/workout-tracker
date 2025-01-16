@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/exercise")
+@RequestMapping("/api/exercise")
 @PreAuthorize("isAuthenticated()")
 public class ExerciseController {
 
