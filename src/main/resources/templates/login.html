@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Rastreador de Entrenamiento - Iniciar Sesión</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
+        body { font-family: 'Nunito', sans-serif; }
+    </style>
+</head>
+<body class="bg-[#d9ede5] min-h-screen flex items-center justify-center p-4 sm:p-8">
+
+    <div class="bg-white p-10 rounded-[2.5rem] shadow-2xl w-full max-w-md relative overflow-hidden">
+        <div class="absolute -top-10 -right-10 w-32 h-32 bg-[#e6f0ec] rounded-full mix-blend-multiply opacity-50"></div>
+        <div class="absolute -bottom-10 -left-10 w-32 h-32 bg-[#fff3e0] rounded-full mix-blend-multiply opacity-50"></div>
+        
+        <div class="text-center mb-8 relative z-10">
+            <div class="flex justify-center mb-2"><svg class="w-12 h-12 text-[#f19b5b] transform -rotate-45" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6.5 6.5h-2v11h2v-11z"/><path d="M17.5 6.5h2v11h-2v-11z"/><path d="M6.5 10.5h11v3h-11v-3z"/><path d="M2 8.5h2.5v7H2v-7z"/><path d="M19.5 8.5H22v7h-2.5v-7z"/></svg></div>
+            <h1 class="text-3xl font-extrabold text-gray-800 tracking-tight">Bienvenido</h1>
+            <p class="text-gray-500 mt-1 font-semibold">Ingresa tus datos para continuar</p>
+        </div>
+
+        <form id="loginForm" class="space-y-5 relative z-10">
+            <div>
+                <label class="block text-gray-700 font-semibold mb-2 ml-1">Usuario</label>
+                <input type="text" id="username" class="w-full bg-gray-50 px-4 py-3 border border-gray-200 rounded-2xl focus:outline-none focus:border-[#9ec88c] focus:ring-1 focus:ring-[#9ec88c] transition" required>
+            </div>
+            <div>
+                <label class="block text-gray-700 font-semibold mb-2 ml-1">Contraseña</label>
+                <input type="password" id="password" class="w-full bg-gray-50 px-4 py-3 border border-gray-200 rounded-2xl focus:outline-none focus:border-[#9ec88c] focus:ring-1 focus:ring-[#9ec88c] transition" required>
+            </div>
+            <button type="submit" class="w-full bg-[#9ec88c] text-white font-bold py-3 rounded-full shadow-md hover:bg-[#8eb87c] hover:-translate-y-0.5 transition">Ingresar</button>
+        </form>
+        
+        <p class="mt-6 text-center text-gray-500 font-semibold relative z-10">
+            ¿No tienes cuenta? <a href="/register" class="text-[#f19b5b] hover:underline">Regístrate</a>
+        </p>
+    </div>
+
+    <script src="/js/auth.js"></script>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    setJwtToken(data.jwt, data.username);
+                    window.location.href = '/dashboard';
+                } else {
+                    Swal.fire('Error', 'Credenciales incorrectas', 'error');
+                }
+            } catch (error) {
+                Swal.fire('Error', 'No se pudo conectar al servidor', 'error');
+            }
+        });
+    </script>
+</body>
+</html>

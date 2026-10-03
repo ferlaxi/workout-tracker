@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Rastreador de Entrenamiento - Inicio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
+        body { font-family: 'Nunito', sans-serif; }
+    </style>
+</head>
+<body class="bg-[#d9ede5] min-h-screen flex items-center justify-center p-4 sm:p-8">
+
+    <div class="w-full max-w-[1400px] h-[calc(100vh-4rem)] bg-white rounded-[3rem] shadow-2xl overflow-hidden flex flex-col">
+        
+        <nav class="p-8 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div><svg class="w-8 h-8 text-[#f19b5b] transform -rotate-45" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6.5 6.5h-2v11h2v-11z"/><path d="M17.5 6.5h2v11h-2v-11z"/><path d="M6.5 10.5h11v3h-11v-3z"/><path d="M2 8.5h2.5v7H2v-7z"/><path d="M19.5 8.5H22v7h-2.5v-7z"/></svg></div>
+                <a href="/" class="text-2xl font-bold text-gray-800 tracking-tight">Gestor de Entrenamientos</a>
+            </div>
+            <div class="space-x-4">
+                <a href="/login" class="text-gray-600 font-semibold hover:text-gray-900 transition">Iniciar Sesión</a>
+                <a href="/register" class="bg-[#9ec88c] text-white px-6 py-2 rounded-full font-bold hover:bg-[#8eb87c] shadow-md transition">Registrarse</a>
+            </div>
+        </nav>
+
+        <main class="flex-grow flex flex-col items-center justify-center text-center p-8 relative">
+            <div class="absolute top-10 left-10 w-32 h-32 bg-[#e6f0ec] rounded-full mix-blend-multiply filter blur-xl opacity-70"></div>
+            <div class="absolute bottom-10 right-10 w-32 h-32 bg-[#fff3e0] rounded-full mix-blend-multiply filter blur-xl opacity-70"></div>
+            
+            <h1 class="text-5xl md:text-6xl font-extrabold text-gray-800 mb-6 tracking-tight z-10">
+                Organiza tus Entrenamientos <br>
+                <span class="text-[#9ec88c]">como nunca antes</span>
+            </h1>
+            <p class="text-xl text-gray-500 mb-10 max-w-2xl z-10">Lleva un registro de todos tus ejercicios diarios, crea planes personalizados y monitorea tu progreso de forma sencilla.</p>
+            
+            <div class="space-x-4 z-10">
+                <a href="/register" class="inline-block bg-[#9ec88c] text-white px-8 py-3 rounded-full text-lg font-bold shadow-lg hover:bg-[#8eb87c] transition hover:-translate-y-1">Comenzar Ahora</a>
+                <a href="/login" class="inline-block bg-[#f8faf9] text-gray-800 border border-gray-200 px-8 py-3 rounded-full text-lg font-bold shadow-sm hover:bg-gray-50 transition hover:-translate-y-1">Ya tengo cuenta</a>
+            </div>
+        </main>
+    </div>
+
+    <script src="/js/auth.js"></script>
+    <script>
+        if (getJwtToken()) {
+            window.location.href = '/dashboard';
+        }
+    </script>
+</body>
+</html>

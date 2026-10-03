@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Mis Planes - Gestor de Entrenamientos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
+        body { font-family: 'Nunito', sans-serif; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-[#d9ede5] min-h-screen flex items-center justify-center p-4 sm:p-8">
+
+    <div class="w-full max-w-[1400px] h-[calc(100vh-4rem)] bg-white rounded-[3rem] shadow-2xl overflow-hidden flex flex-row">
+        
+        <!-- Dark Sidebar -->
+        <div class="w-24 bg-[#0c1210] flex flex-col items-center py-8 text-gray-400 z-10 shrink-0">
+            <div class="mb-12"><svg class="w-10 h-10 text-[#f19b5b] transform -rotate-45" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6.5 6.5h-2v11h2v-11z"/><path d="M17.5 6.5h2v11h-2v-11z"/><path d="M6.5 10.5h11v3h-11v-3z"/><path d="M2 8.5h2.5v7H2v-7z"/><path d="M19.5 8.5H22v7h-2.5v-7z"/></svg></div>
+            
+            <a href="/dashboard" class="mb-8 hover:text-white transition flex flex-col items-center">
+                <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+                <span class="text-[10px]">Inicio</span>
+            </a>
+            
+            <a href="/plans" class="mb-8 text-white transition flex flex-col items-center relative group">
+                <span class="absolute -left-4 top-1/2 -translate-y-1/2 w-1 h-6 bg-[#f19b5b] rounded-r-lg"></span>
+                <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                <span class="text-[10px] text-[#9ec88c]">Planes</span>
+            </a>
+            
+            <a href="/exercises" class="mb-8 hover:text-white transition flex flex-col items-center">
+                <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"></path></svg>
+                <span class="text-[10px]">Ejercicios</span>
+            </a>
+            
+            <div class="mt-auto flex flex-col space-y-6">
+                <button onclick="logout()" class="hover:text-[#f19b5b] transition">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 bg-[#fcfdfd] overflow-y-auto">
+            <div class="p-8 lg:p-12">
+                
+                <div class="flex justify-between items-center mb-10">
+                    <div>
+                        <h1 class="text-3xl font-bold text-gray-800 tracking-tight">Tus Planes</h1>
+                    </div>
+                    <button onclick="openModal()" class="bg-[#9ec88c] text-white px-6 py-2 rounded-full font-semibold hover:bg-[#8eb87c] shadow transition">
+                        + Nuevo Plan
+                    </button>
+                </div>
+
+                <div id="plan-list" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Planes cargados por JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Form (Rounded) -->
+    <div id="planModal" class="hidden fixed inset-0 bg-gray-900/40 backdrop-blur-sm flex items-center justify-center z-50">
+        <div class="bg-white p-8 rounded-[2rem] shadow-2xl w-full max-w-md border border-gray-100">
+            <h2 id="modalTitle" class="text-2xl font-bold mb-6 text-gray-800">Añadir Plan</h2>
+            <form id="planForm" class="space-y-4">
+                <input type="hidden" id="p-id">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-600 mb-1">Nombre</label>
+                    <input type="text" id="p-name" class="w-full bg-gray-50 border border-gray-200 p-3 rounded-xl focus:outline-none focus:border-[#9ec88c]" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-600 mb-1">Categoría</label>
+                    <input type="text" id="p-category" class="w-full bg-gray-50 border border-gray-200 p-3 rounded-xl focus:outline-none focus:border-[#9ec88c]" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-600 mb-1">Descripción</label>
+                    <textarea id="p-description" class="w-full bg-gray-50 border border-gray-200 p-3 rounded-xl focus:outline-none focus:border-[#9ec88c]"></textarea>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-600 mb-1">Fecha Inicio</label>
+                        <input type="date" id="p-date" class="w-full bg-gray-50 border border-gray-200 p-3 rounded-xl focus:outline-none focus:border-[#9ec88c]">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-600 mb-1">Hora Inicio</label>
+                        <input type="time" id="p-time" class="w-full bg-gray-50 border border-gray-200 p-3 rounded-xl focus:outline-none focus:border-[#9ec88c]">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-600 mb-1">Estado</label>
+                    <select id="p-state" class="w-full bg-gray-50 border border-gray-200 p-3 rounded-xl focus:outline-none focus:border-[#9ec88c]">
+                        <option value="Activo">Activo</option>
+                        <option value="Pausa">Pausa</option>
+                        <option value="Hecho">Hecho</option>
+                    </select>
+                </div>
+                <div class="flex justify-end space-x-3 mt-6 pt-4">
+                    <button type="button" onclick="closeModal()" class="text-gray-500 font-semibold px-4 py-2 rounded-full hover:bg-gray-100 transition">Cancelar</button>
+                    <button type="submit" class="bg-[#9ec88c] text-white font-semibold px-6 py-2 rounded-full shadow hover:bg-[#8eb87c] transition">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="/js/auth.js"></script>
+    <script>
+        checkAuth();
+        
+        async function loadPlans() {
+            try {
+                const res = await fetchWithAuth('/api/training');
+                const plans = await res.json();
+                
+                const container = document.getElementById('plan-list');
+                container.innerHTML = '';
+                
+                if (plans.length === 0) {
+                    container.innerHTML = `
+                    <div class="col-span-1 md:col-span-2 flex flex-col items-center justify-center py-16 bg-[#fcfdfd] border-2 border-dashed border-[#d9ede5] rounded-[2rem]">
+                        <div class="text-6xl mb-4">📅</div>
+                        <h3 class="text-xl font-bold text-gray-700 mb-2">Aún no tienes planes de entrenamiento</h3>
+                        <p class="text-gray-500 mb-6 text-center max-w-md">Organiza tu semana y alcanza tus metas creando tu primer plan personalizado.</p>
+                        <button onclick="openModal()" class="bg-[#9ec88c] text-white px-6 py-2 rounded-full font-semibold hover:bg-[#8eb87c] shadow transition">
+                            Crear mi primer plan
+                        </button>
+                    </div>
+                `;
+                    return;
+                }
+
+                plans.forEach(plan => {
+                    let badgeColor = plan.state === 'Activo' ? 'bg-[#9ec88c] text-white' : (plan.state === 'Hecho' ? 'bg-blue-400 text-white' : 'bg-[#f19b5b] text-white');
+                    
+                    const card = document.createElement('div');
+                    card.className = 'bg-white p-6 rounded-[2rem] shadow-sm border border-gray-100 relative group hover:shadow-md transition';
+                    card.innerHTML = `
+                        <div class="flex justify-between items-start mb-2">
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800">${plan.name}</h3>
+                                <div class="mt-2 space-x-2">
+                                    <span class="text-xs bg-gray-100 text-gray-600 px-3 py-1 rounded-full font-semibold">${plan.category}</span>
+                                    <span class="text-xs ${badgeColor} px-3 py-1 rounded-full font-semibold">${plan.state || 'N/A'}</span>
+                                </div>
+                            </div>
+                            <div class="text-right text-xs text-gray-400 bg-gray-50 p-2 rounded-xl">
+                                <p class="mb-1">📅 ${plan.initDate || '--'}</p>
+                                <p>⏰ ${plan.initTime || '--'}</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-500 text-sm mt-4 pl-1">${plan.description || 'Sin descripción'}</p>
+                        
+                        <div class="absolute top-4 right-4 hidden group-hover:flex space-x-2">
+                            <button onclick="editPlan(${plan.id})" class="text-blue-500 bg-blue-50 w-8 h-8 rounded-full flex items-center justify-center hover:bg-blue-100 transition">✏️</button>
+                            <button onclick="deletePlan(${plan.id})" class="text-red-500 bg-red-50 w-8 h-8 rounded-full flex items-center justify-center hover:bg-red-100 transition">🗑️</button>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        document.getElementById('planForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const id = document.getElementById('p-id').value;
+            
+            const payload = {
+                name: document.getElementById('p-name').value,
+                category: document.getElementById('p-category').value,
+                description: document.getElementById('p-description').value,
+                initDate: document.getElementById('p-date').value,
+                initTime: document.getElementById('p-time').value,
+                state: document.getElementById('p-state').value
+            };
+
+            const method = id ? 'PUT' : 'POST';
+            const url = id ? `/api/training/edit/${id}` : '/api/training';
+
+            try {
+                const res = await fetchWithAuth(url, {
+                    method,
+                    body: JSON.stringify(payload)
+                });
+                
+                if (res.ok) {
+                    closeModal();
+                    loadPlans();
+                    Swal.fire('Guardado', 'Plan guardado correctamente', 'success');
+                } else {
+                    Swal.fire('Error', 'No se pudo guardar el plan', 'error');
+                }
+            } catch(e) {
+                Swal.fire('Error', 'Error de red', 'error');
+            }
+        });
+
+        async function editPlan(id) {
+            try {
+                const res = await fetchWithAuth(`/api/training/${id}`);
+                const plan = await res.json();
+                
+                document.getElementById('p-id').value = plan.id;
+                document.getElementById('p-name').value = plan.name;
+                document.getElementById('p-category').value = plan.category;
+                document.getElementById('p-description').value = plan.description;
+                document.getElementById('p-date').value = plan.initDate;
+                document.getElementById('p-time').value = plan.initTime;
+                document.getElementById('p-state').value = plan.state || 'Activo';
+                
+                document.getElementById('modalTitle').textContent = 'Editar Plan';
+                document.getElementById('planModal').classList.remove('hidden');
+            } catch (e) {
+                Swal.fire('Error', 'No se pudo cargar el plan', 'error');
+            }
+        }
+
+        async function deletePlan(id) {
+            if (await Swal.fire({ title: '¿Eliminar?', text: 'No podrás revertirlo', icon: 'warning', showCancelButton: true }).then(r => r.isConfirmed)) {
+                try {
+                    await fetchWithAuth(`/api/training/delete/${id}`, { method: 'DELETE' });
+                    loadPlans();
+                    Swal.fire('Eliminado', '', 'success');
+                } catch(e) {}
+            }
+        }
+
+        function openModal() {
+            document.getElementById('planForm').reset();
+            document.getElementById('p-id').value = '';
+            document.getElementById('modalTitle').textContent = 'Añadir Plan';
+            document.getElementById('planModal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('planModal').classList.add('hidden');
+        }
+
+        window.onload = loadPlans;
+    </script>
+</body>
+</html>
