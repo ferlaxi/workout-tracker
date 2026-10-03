@@ -39,7 +39,7 @@ public class ExerciseService implements IExerciseService{
         UserSec userSec = userRepository.findUserEntityByUsername(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString())
                 .orElseThrow(() -> new UsernameNotFoundException("Bad Request"));
 
-        if (exercise.isPresent() && exercise.get().getId() == userSec.getId()) {
+        if (exercise.isPresent() && exercise.get().getIdUser().equals(userSec.getId())) {
             return exerciseRepository.findById(id);
         }
 
@@ -52,7 +52,7 @@ public class ExerciseService implements IExerciseService{
         UserSec userSec = userRepository.findUserEntityByUsername(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString())
                 .orElseThrow(() -> new UsernameNotFoundException("Bad Request"));
 
-        if (exercise.isPresent() && exercise.get().getId() == userSec.getId()) {
+        if (exercise.isPresent() && exercise.get().getIdUser().equals(userSec.getId())) {
             exercise.get().setName(editedExercise.getName());
             exercise.get().setDescription(editedExercise.getDescription());
             exercise.get().setCategory(editedExercise.getCategory());
@@ -71,7 +71,7 @@ public class ExerciseService implements IExerciseService{
         UserSec userSec = userRepository.findUserEntityByUsername(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString())
                 .orElseThrow(() -> new UsernameNotFoundException("Bad Request"));
 
-        if (exercise.isPresent() && exercise.get().getId() == userSec.getId()) {
+        if (exercise.isPresent() && exercise.get().getIdUser().equals(userSec.getId())) {
             exerciseRepository.deleteById(id);
         }
     }

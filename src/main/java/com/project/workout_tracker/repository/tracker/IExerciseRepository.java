@@ -11,5 +11,5 @@ import java.util.List;
 public interface IExerciseRepository extends JpaRepository<Exercise, Long> {
 
     @Query("SELECT e FROM Exercise e WHERE e.idUser = :idUser")
-    public List<Exercise> findAllById (Long idUSer);
+    public List<Exercise> findAllById (@org.springframework.data.repository.query.Param("idUser") Long idUser);
 }

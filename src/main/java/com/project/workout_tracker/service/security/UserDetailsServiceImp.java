@@ -38,7 +38,7 @@ public class UserDetailsServiceImp implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         UserSec userSec = userRepository.findUserEntityByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Username " + username + " not found"));
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario " + username + " no encontrado"));
 
         List<GrantedAuthority> authorityList = new ArrayList<>();
 
@@ -67,17 +67,17 @@ public class UserDetailsServiceImp implements UserDetailsService {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String accessToken = jwtUtils.createToken(authentication);
-        return new AuthResponseDTO(username, "login ok", accessToken, true);
+        return new AuthResponseDTO(username, "Inicio de sesión exitoso", accessToken, true);
     }
 
     public Authentication authenticate (String username, String password) {
         UserDetails userDetails = loadUserByUsername(username);
 
         if (userDetails == null) {
-            throw new BadCredentialsException("Invalid username or password");
+            throw new BadCredentialsException("Usuario o contraseña inválidos");
         }
         if (!securityConfig.passwordEncoder().matches(password, userDetails.getPassword())) {
-            throw new BadCredentialsException("Invalid username or password");
+            throw new BadCredentialsException("Usuario o contraseña inválidos");
         }
 
         return new UsernamePasswordAuthenticationToken(username, userDetails.getPassword(), userDetails.getAuthorities());

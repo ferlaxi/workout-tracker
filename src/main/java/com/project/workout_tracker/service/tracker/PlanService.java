@@ -39,7 +39,7 @@ public class PlanService implements IPlanService{
         UserSec userSec = userRepository.findUserEntityByUsername(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString())
                 .orElseThrow(() -> new UsernameNotFoundException("Bad Request"));
 
-        if (planFinded.isPresent() && planFinded.get().getId() == userSec.getId()) {
+        if (planFinded.isPresent() && planFinded.get().getIdUser().equals(userSec.getId())) {
             return planFinded;
         }
         return Optional.empty();
@@ -51,7 +51,7 @@ public class PlanService implements IPlanService{
         UserSec userSec = userRepository.findUserEntityByUsername(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString())
                 .orElseThrow(() -> new UsernameNotFoundException("Bad Request"));
 
-        if (plan.isPresent() && plan.get().getId() == userSec.getId()) {
+        if (plan.isPresent() && plan.get().getIdUser().equals(userSec.getId())) {
             plan.get().setName(editedPlan.getName());
             plan.get().setDescription(editedPlan.getDescription());
             plan.get().setCategory(editedPlan.getCategory());
@@ -71,7 +71,7 @@ public class PlanService implements IPlanService{
         UserSec userSec = userRepository.findUserEntityByUsername(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString())
                 .orElseThrow(() -> new UsernameNotFoundException("Bad Request"));
 
-        if (planFinded.isPresent() && planFinded.get().getId() == userSec.getId()) {
+        if (planFinded.isPresent() && planFinded.get().getIdUser().equals(userSec.getId())) {
             planRepository.deleteById(id);
         }
     }

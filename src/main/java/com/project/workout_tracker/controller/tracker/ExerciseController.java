@@ -29,7 +29,7 @@ public class ExerciseController {
     @PostMapping
     public ResponseEntity<Exercise> createExercise (@RequestBody Exercise exercise) {
         UserSec userSec = userRepository.findUserEntityByUsername(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString())
-                .orElseThrow(() -> new UsernameNotFoundException("Bad Request"));
+                .orElseThrow(() -> new UsernameNotFoundException("Petición incorrecta"));
         exercise.setIdUser(userSec.getId());
         Optional<Exercise> newExercise = exerciseService.save(exercise);
         return newExercise.map(value -> new ResponseEntity<>(value, HttpStatus.CREATED)).orElseGet(() ->  ResponseEntity.badRequest().build());
@@ -56,6 +56,6 @@ public class ExerciseController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteExercise (@PathVariable Long id) {
         exerciseService.delete(id);
-        return new ResponseEntity<>("successfully removed", HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>("Eliminado con éxito", HttpStatus.NO_CONTENT);
     }
  }

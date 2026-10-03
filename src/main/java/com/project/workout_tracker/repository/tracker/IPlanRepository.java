@@ -11,5 +11,5 @@ import java.util.List;
 public interface IPlanRepository extends JpaRepository<Plan, Long> {
 
     @Query("SELECT p FROM Plan p WHERE p.idUser = :idUser")
-    public List<Plan> findAllById (Long IdUser);
+    public List<Plan> findAllById (@org.springframework.data.repository.query.Param("idUser") Long idUser);
 }

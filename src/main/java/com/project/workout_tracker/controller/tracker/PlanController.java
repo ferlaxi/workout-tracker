@@ -19,7 +19,7 @@ import java.time.LocalTime;
 import java.util.*;
 
 @RestController
-@RequestMapping("/training")
+@RequestMapping("/api/training")
 @PreAuthorize("isAuthenticated()")
 public class PlanController {
 
@@ -37,7 +37,7 @@ public class PlanController {
         Set<Exercise> exerciseList = new HashSet<>();
         Exercise exerciseFounded;
         UserSec userSec = userRepository.findUserEntityByUsername(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString())
-                .orElseThrow(() -> new UsernameNotFoundException("Bad Request"));
+                .orElseThrow(() -> new UsernameNotFoundException("Petición incorrecta"));
         plan.setIdUser(userSec.getId());
 
         for (Exercise exercise : plan.getExerciseList()) {
@@ -74,6 +74,6 @@ public class PlanController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deletePlan (@PathVariable Long id) {
         planService.delete(id);
-        return new ResponseEntity<>("successfully removed", HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>("Eliminado con éxito", HttpStatus.NO_CONTENT);
     }
 }
